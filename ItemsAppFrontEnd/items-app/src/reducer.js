@@ -16,7 +16,7 @@ export default function AppReducer(state = initialState, action) {
     case appConstants.GET_ITEMS_SUCCESS:
       return {
         ...state,
-        items: action.items,
+        items: action.items.data,
         loading: false,
       };
     default:

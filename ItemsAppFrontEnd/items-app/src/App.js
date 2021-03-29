@@ -3,17 +3,15 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Row, Col, Tabs, Table } from "antd";
 import itemAction from "./action";
+import 'antd/dist/antd.css';
 import "./App.css";
 
 const { TabPane } = Tabs;
 
-// eslint-disable require-default-props
-/* eslint react/prop-types: 0 */
 class App extends React.PureComponent {
 
   componentDidMount() {
     this.getItems();
-    console.log('items', this.props.items);
   }
 
   getItems() {
@@ -24,21 +22,21 @@ class App extends React.PureComponent {
     const itemColumns = [
       {
         title: "ID",
-        dataIndex: "Id",
+        dataIndex: "id",
         key: "Id",
         sorter: (a, b) => a.Id - b.Id,
         sortDirections: ["descend", "ascend"],
       },
       {
         title: "ITEM",
-        dataIndex: "ItemName",
+        dataIndex: "itemName",
         key: "ItemName",
-        sorter: (a, b) => a.ItemName.length - b.ItemName.length,
+        sorter: (a, b) => a.ItemName - b.ItemName,
         sortDirections: ["descend", "ascend"],
       },
       {
         title: "COST",
-        dataIndex: "Cost",
+        dataIndex: "cost",
         key: "Cost",
         sorter: (a, b) => a.Cost - b.Cost,
         sortDirections: ["descend", "ascend"],

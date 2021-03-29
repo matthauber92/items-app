@@ -1,5 +1,6 @@
 {
   "name": "items-app",
+  "proxy": "https://localhost:44344",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

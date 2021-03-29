@@ -23,7 +23,7 @@ module.exports = merge(common, {
   devServer: {
     contentBase: './dist',
     host: 'localhost',
-    port: 44344,
+    port: 3000,
     hot: true,
     publicPath: '/',
     headers: {
