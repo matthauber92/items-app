@@ -50,7 +50,7 @@ namespace ItemsApp.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Route("DeleteItem")]
         public void DeleteItem(int id)
         {
@@ -59,7 +59,7 @@ namespace ItemsApp.Controllers
 
         [HttpPut]
         [Route("UpdateItem")]
-        public ActionResult<Items> UpdateItem([FromBody] Items item, int id)
+        public ActionResult<Items> UpdateItem(int id, [FromBody] Items item)
         {
             var result = _service.UpdateItem(item, id);
 

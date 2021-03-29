@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Items]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
-    [ItemName] NCHAR(250) NULL, 
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [ItemName] NVARCHAR(50) NULL, 
     [Cost] INT NULL
 )

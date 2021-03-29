@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieApp.Helpers
+namespace ItemsApp.Helpers
 {
     public class Result
     {

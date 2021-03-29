@@ -1,8 +1,9 @@
 import appConstants from "./constants";
 
-//TODO: ADD to player component as player reducer
 export const initialState = {
   items: [],
+  item: {},
+  hasError: false,
 };
 
 export default function AppReducer(state = initialState, action) {
@@ -18,6 +19,73 @@ export default function AppReducer(state = initialState, action) {
         ...state,
         items: action.items.data,
         loading: false,
+      };
+    case appConstants.GET_ITEMS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        hasError: true,
+        error: action.error,
+      };
+    case appConstants.ADD_ITEM_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        hasError: false,
+      };
+    case appConstants.ADD_ITEM_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        hasError: false,
+        item: action.item.data,
+      };
+    case appConstants.ADD_ITEM_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        hasError: true,
+        error: action.error,
+      };
+    case appConstants.UPDATE_ITEM_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        hasError: false,
+      };
+    case appConstants.UPDATE_ITEM_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        hasError: false,
+        item: action.item.data,
+      };
+    case appConstants.UPDATE_ITEM_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        hasError: true,
+        error: action.error,
+      };
+    case appConstants.DELETE_VICTIM_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        hasError: false,
+      };
+    case appConstants.DELETE_VICTIM_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        hasError: false,
+        item: {},
+      };
+    case appConstants.DELETE_VICTIM_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        hasError: true,
+        error: action.error,
       };
     default:
       return state;
