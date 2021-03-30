@@ -38,89 +38,97 @@ class ItemsModal extends React.Component {
         <Modal
           visible={this.props.visible}
           title={this.props.title}
+          width={700}
+          height={500}
           onOk={() => this.props.handleCancel()}
           onCancel={() => this.props.handleCancel()}
-          footer={[
-          ]}
+          footer={false}
         >
-      <Formik
-        enableReinitialize
-        initialValues={{
-          ItemName: this.props.item == null ? this.state.ItemName : this.props.item.itemName,
-          Cost: this.props.item == null ? this.state.Cost : this.props.item.cost,
-        }}
-        validationSchema={Yup.object().shape({
-            ItemName: Yup.string()
-              .typeError('Item Name is required')
-              .required('Item Name is required'),
-            Cost: Yup.number()
-              .typeError('Cost is required')
-              .required('Cost is required'),
-          })}
-        onSubmit={(values) => { this.props.onSubmit(this.pivotData(values)); }}
-        render={({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleSubmit,
-        }) => (
-          <Form
-            id="item-form"
-            name={this.props.title}
-            autoComplete="off"
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-          >
-            <Row gutter={[16, 16]}>
-              <Col span={12}>
-                <Form.Item
-                  validateStatus={errors && errors.ItemName && touched.ItemName ? 'error' : null}
-                  help={errors && touched.ItemName && errors.ItemName}
-                >
-                  <div className="form-label"><b>Item Name</b></div>
-                  <Input
-                    type="text"
-                    id="ItemName"
-                    name="ItemName"
-                    placeholder="Item Name"
-                    value={values.ItemName}
-                    onChange={handleChange}
-                    autoComplete="ItemName"
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  validateStatus={errors && errors.Cost && touched.Cost ? 'error' : null}
-                  help={errors && touched.Cost && errors.Cost}
-                >
-                  <div className="form-label"><b>Cost</b></div>
-                  <Input
-                    type="number"
-                    id="Cost"
-                    name="Cost"
-                    placeholder="Cost"
-                    value={values.Cost}
-                    onChange={handleChange}
-                    autoComplete="Cost"
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Tooltip title={this.props.btnTxt}>
-                <Button block key="submit" type="primary" style={{ marginBottom: '10px' }} loading={this.props.loading} onClick={handleSubmit}>
-                  {this.props.btnTxt}
-                </Button>
-            </Tooltip>
-            <Tooltip key="back" title="Cancel">
-                <Button block type="secondary" onClick={() => this.props.handleCancel()}>
-                  Cancel
-                </Button>
-            </Tooltip>,
-          </Form>
-        )}
-        />
+        <Formik
+          enableReinitialize
+          initialValues={{
+            ItemName: this.props.item == null ? this.state.ItemName : this.props.item.itemName,
+            Cost: this.props.item == null ? this.state.Cost : this.props.item.cost,
+          }}
+          validationSchema={Yup.object().shape({
+              ItemName: Yup.string()
+                .typeError('Item Name is required')
+                .required('Item Name is required'),
+              Cost: Yup.number()
+                .typeError('Cost is required')
+                .required('Cost is required'),
+            })}
+          onSubmit={(values) => { this.props.onSubmit(this.pivotData(values)); }}
+          render={({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleSubmit,
+          }) => (
+            <Form
+              id="item-form"
+              style={{ paddingBottom: '50px', paddingTop: '50px'}}
+              name={this.props.title}
+              autoComplete="off"
+              onChange={handleChange}
+              onSubmit={handleSubmit}
+            >
+              <Row gutter={[16, 16]}>
+                <Col span={12}>
+                  <Form.Item
+                    validateStatus={errors && errors.ItemName && touched.ItemName ? 'error' : null}
+                    help={errors && touched.ItemName && errors.ItemName}
+                  >
+                    <div className="form-label"><b>Item Name</b></div>
+                    <Input
+                      type="text"
+                      id="ItemName"
+                      name="ItemName"
+                      placeholder="Item Name"
+                      value={values.ItemName}
+                      onChange={handleChange}
+                      autoComplete="ItemName"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    validateStatus={errors && errors.Cost && touched.Cost ? 'error' : null}
+                    help={errors && touched.Cost && errors.Cost}
+                  >
+                    <div className="form-label"><b>Cost</b></div>
+                    <Input
+                      type="number"
+                      id="Cost"
+                      name="Cost"
+                      placeholder="Cost"
+                      value={values.Cost}
+                      onChange={handleChange}
+                      autoComplete="Cost"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={[16, 16]} style={{ paddingTop: '50px'}}>
+                <Col span={12}>
+                  <Tooltip key="back" title="CANCEL">
+                      <Button block type="secondary" onClick={() => this.props.handleCancel()}>
+                        CANCEL
+                      </Button>
+                  </Tooltip>
+                </Col>
+                <Col span={12}>
+                  <Tooltip title={this.props.btnTxt}>
+                      <Button block key="submit" type="primary" style={{ marginBottom: '10px' }} loading={this.props.loading} onClick={handleSubmit}>
+                        {this.props.btnTxt}
+                      </Button>
+                  </Tooltip>
+                </Col>
+              </Row>,
+            </Form>
+          )}
+          />
         </Modal>
       </>
     );

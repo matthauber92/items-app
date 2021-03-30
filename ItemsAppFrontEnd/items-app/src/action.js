@@ -67,7 +67,7 @@ function UpdateItem(id, item) {
   };
 }
 
-function DeleteItem(id) {
+function DeleteItem(item) {
   function request() { return { type: c.DELETE_ITEM_REQUEST }; }
   function success(id) {
     return { type: c.DELETE_ITEM_SUCCESS, id };
@@ -78,9 +78,9 @@ function DeleteItem(id) {
 
   return (dispatch) => {
     dispatch(request());
-    ItemsService.deleteItem(id).then(() => {
-        dispatch(success(id));
-        toast("Removed Item"); 
+    ItemsService.deleteItem(item.id).then(() => {
+        dispatch(success(item.id));
+        toast(`Removed ${item.itemName}`); 
       },
       (error) => {
         dispatch(failure(error.toString()));

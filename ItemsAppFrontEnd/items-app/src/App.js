@@ -52,12 +52,19 @@ class App extends React.PureComponent {
   }
 
   getFavorites = () => {
-    const sessionList = JSON.parse(sessionStorage.getItem('favorite-list'));
-    this.favoriteList = sessionList;
+    if (sessionStorage.length > 0) {
+      const sessionList = JSON.parse(sessionStorage.getItem('favorite-list'));
+      this.favoriteList = sessionList;
+    } else if (localStorage.length > 0) {
+      const sessionList = JSON.parse(localStorage.getItem('favorite-list'));
+      this.favoriteList = sessionList;
+    } else
+      this.favoriteList = [];
   };
 
   addFavorite = (item) => {
     this.favoriteList.push(item);
+    localStorage.setItem('favorite-list', JSON.stringify(this.favoriteList));    
     sessionStorage.setItem('favorite-list', JSON.stringify(this.favoriteList));
     toast(`Added ${item.itemName} to favorites.`); 
     this.getItems();
@@ -68,6 +75,7 @@ class App extends React.PureComponent {
     if(this.favoriteList !== null) {
       const list = this.favoriteList.filter(x => x.id !== item.id);
       sessionStorage.setItem('favorite-list', JSON.stringify(list));
+      localStorage.setItem('favorite-list', JSON.stringify(this.favoriteList));
       toast(`Removed ${item.itemName} from favorites.`); 
       this.getItems();
       this.getFavorites();
@@ -99,7 +107,7 @@ class App extends React.PureComponent {
     Modal.confirm({
       title:`Are you sure you want to remove ${item.itemName}?`,
       icon: <ExclamationCircleOutlined />,
-      onOk: async () => { await this.props.dispatch(itemAction.DeleteItem(item.id)); this.getItems(); },
+      onOk: async () => { await this.props.dispatch(itemAction.DeleteItem(item)); this.getItems(); this.removeFavorite(item); this.getFavorites(); },
       okText: 'Yes',
       cancelText: 'No',
     });
@@ -184,7 +192,7 @@ class App extends React.PureComponent {
       </div>
     ),
     filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} className="search" />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
@@ -251,7 +259,7 @@ class App extends React.PureComponent {
       },
       {
         title: this.state.activeTab === 'items' ? 'Favorite' : '',
-        render: (text, row) =>
+        render: (row) =>
         this.state.activeTab === 'items' && (
           <>
             {
@@ -261,7 +269,7 @@ class App extends React.PureComponent {
                   type="button"
                   onClick={() => { this.addFavorite(row); }}
                   icon={<StarOutlined />}
-                  size="small"
+                  size="large"
                   style={{ width: 100, border: 'none !important', backgroundColor: 'none !important' }}
                 >
                 </Button>
@@ -273,7 +281,7 @@ class App extends React.PureComponent {
                   type="button"
                   onClick={() => { this.addFavorite(row); }}
                   icon={<StarOutlined />}
-                  size="small"
+                  size="large"
                   style={{ width: 100, border: 'none !important', backgroundColor: 'none !important' }}
                 >
                 </Button>
@@ -292,7 +300,7 @@ class App extends React.PureComponent {
         ),
       },
       {
-        render: (text, row) =>
+        render: (row) =>
         this.state.activeTab === 'items' && (
           <Tooltip key="submit" title={`Remove ${row.itemName}`}>
             <FontAwesomeIcon
@@ -307,11 +315,11 @@ class App extends React.PureComponent {
     ];
     return (
       <>
-        <ToastContainer autoclose={3000} position={toast.POSITION.TOP_RIGHT} />
+        <ToastContainer autoclose={3000} position={toast.POSITION.TOP_CENTER} />
         <Row justify="center">
           <Col xs={24} md={20} lg={18}>
             <span>
-              <h1 className="p5-page-h1-header">
+              <h1>
                 <Tooltip title="Add Item">
                   <FontAwesomeIcon
                     icon={faPlusCircle}
@@ -327,20 +335,18 @@ class App extends React.PureComponent {
             </span>
           </Col>
         </Row>
-        <div className="p5-grid-page-container">
+        <div>
           <Row justify="center">
             <Col xs={24} md={24} lg={20}>
               <Tabs
-                className="p5-tabs"
                 size="large"
                 onTabClick={(e) => this.UpdateTabPage(e)}
               >
                 <TabPane
-                  className="p5-tabs-pane"
                   tab="Items"
                   key="items"
                 >
-                  <div className="p5-grid-page-container">
+                  <div>
                     <Row justify="center">
                       <Col span={24}>
                         <Table
@@ -358,7 +364,6 @@ class App extends React.PureComponent {
                 </TabPane>
 
                 <TabPane
-                  className="p5-tabs-pane"
                   tab="Favorites"
                   key="favorites"
                 > 

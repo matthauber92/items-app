@@ -47,6 +47,20 @@
   background: #e5f9ff !important;
 }
 
+.ant-tabs, .ant-tabs-nav {
+  font-weight: 500;
+}
+
+.form-label {
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: #243b53;
+}
+
+.search {
+  font-size: 24px !important;
+}
+
 .Toastify__progress-bar--default {
   background: green !important;
 }
