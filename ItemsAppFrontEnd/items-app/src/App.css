@@ -2,6 +2,7 @@
   font-size: 16px;
   font-weight: 500;
   color: #31525B;
+  cursor: pointer;
 }
 
 .item:hover {
@@ -9,8 +10,47 @@
   transition: .3;
 }
 
+.ant-btn-primary {
+  cursor: pointer;
+  color: #fff;
+  background-color: #31525B !important;
+  border: none !important;
+}
+.ant-btn-primary:hover {
+  cursor: pointer;
+  color: #fff !important;
+  background-color: #32A1BB !important;
+}
+
+.add-icon {
+  cursor: pointer;
+  color: #31525B !important;
+}
+
+.add-icon:hover {
+  color: #32A1BB !important;
+  cursor: pointer;
+  transition: .3;
+}
 
 .trash {
+  cursor: pointer;
+}
+
+.trash:hover {
   color: red !important;
-  background-color: red !important;
+  cursor: pointer;
+  transition: .3;
+}
+
+.ant-table-thead, th {
+  background: #e5f9ff !important;
+}
+
+.Toastify__progress-bar--default {
+  background: green !important;
+}
+
+.Toastify__progress-bar--error {
+  background: rgb(201, 125, 125);
 }

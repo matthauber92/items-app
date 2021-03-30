@@ -1,11 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Row, Col, Tabs, Table, Tooltip, Button, Modal } from "antd";
+import {
+  Row,
+  Col,
+  Tabs,
+  Table,
+  Tooltip,
+  Button,
+  Modal,
+  Input,
+  Space,
+} from "antd";
 import { ToastContainer, toast } from "react-toastify";
 import { faPlusCircle, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, SearchOutlined, StarOutlined, StarFilled } from '@ant-design/icons';
+import Highlighter from 'react-highlight-words';
 import ItemsModal from './common/components/modals'
 import itemAction from "./action";
 import 'antd/dist/antd.css';
@@ -17,10 +28,14 @@ const { TabPane } = Tabs;
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.favoriteList = [];
     this.state = {
       itemId: 0,
       editItem: false,
       visible: false,
+      searchText: '',
+      searchColumn: '',
+      activeTab: 'items',
       item: {
         Id: 0,
         ItemName: '',
@@ -31,7 +46,34 @@ class App extends React.PureComponent {
 
   componentDidMount() {
     this.getItems();
+    if(sessionStorage.length > 0) {
+      this.getFavorites();
+    }
   }
+
+  getFavorites = () => {
+    const sessionList = JSON.parse(sessionStorage.getItem('favorite-list'));
+    this.favoriteList = sessionList;
+  };
+
+  addFavorite = (item) => {
+    this.favoriteList.push(item);
+    sessionStorage.setItem('favorite-list', JSON.stringify(this.favoriteList));
+    toast(`Added ${item.itemName} to favorites.`); 
+    this.getItems();
+    this.getFavorites();
+  };
+
+  removeFavorite = (item) => {
+    if(this.favoriteList !== null) {
+      const list = this.favoriteList.filter(x => x.id !== item.id);
+      sessionStorage.setItem('favorite-list', JSON.stringify(list));
+      toast(`Removed ${item.itemName} from favorites.`); 
+      this.getItems();
+      this.getFavorites();
+    } else
+      return;
+  };
 
   getItems() {
     this.props.dispatch(itemAction.GetItems());
@@ -53,11 +95,11 @@ class App extends React.PureComponent {
     this.setState({ visible: true });
   };
 
-  removeItem = (id) => {
+  removeItem = (item) => {
     Modal.confirm({
-      title: 'Are you sure you want to remove item?',
+      title:`Are you sure you want to remove ${item.itemName}?`,
       icon: <ExclamationCircleOutlined />,
-      onOk: () => { this.props.dispatch(itemAction.DeleteItem(id)); this.getItems(); },
+      onOk: async () => { await this.props.dispatch(itemAction.DeleteItem(item.id)); this.getItems(); },
       okText: 'Yes',
       cancelText: 'No',
     });
@@ -70,7 +112,104 @@ class App extends React.PureComponent {
       this.updateItem(data);
     }
     this.setState({ item: null });
-  }
+  };
+
+  UpdateTabPage = (tab) => {
+    this.setState({ activeTab: tab });
+    this.getFavorites();
+  };
+
+  handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    this.setState({
+      searchText: selectedKeys[0],
+      searchedColumn: dataIndex,
+    });
+  };
+
+  handleReset = (clearFilters) => {
+    clearFilters();
+    this.setState({ searchText: "" });
+  };
+
+  getItemSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={(node) => {
+            this.searchInput = node;
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: "block" }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => this.handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              this.setState({
+                searchText: selectedKeys[0],
+                searchedColumn: dataIndex,
+              });
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : "",
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select(), 100);
+      }
+    },
+    render: (text) =>
+      this.state.searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
 
   handleCancel = () => {
     this.setState({ item: null });
@@ -92,9 +231,10 @@ class App extends React.PureComponent {
         key: "itemName",
         sorter: (a, b) => a.itemName.length - b.itemName.length,
         sortDirections: ["descend", "ascend"],
-        render: (text, row, index) =>
+        ...this.getItemSearchProps('itemName'),
+        render: (text, row) =>
         this.props.items !== null ? (
-          <Button type="text" className="item" onClick={() => {this.showModal(); this.setState({ item: this.props.items[index], itemId: this.props.items[index].id, editItem: true }); }}>
+          <Button type="text" className="item" onClick={() => { this.showModal(); this.setState({ item: row, itemId: row.id, editItem: true }); }}>
             {text}
           </Button>
         ) : (
@@ -107,17 +247,61 @@ class App extends React.PureComponent {
         key: "cost",
         sorter: (a, b) => a.cost - b.cost,
         sortDirections: ["descend", "ascend"],
+        ...this.getItemSearchProps('cost'),
       },
       {
-        title: <FontAwesomeIcon icon={faTrash} id="DeleteItem"size="1x" />,
-        render: (text, row, index) =>
-        this.props.items !== null && (
-          <FontAwesomeIcon
-            id={`DeleteItem-${this.props.items[index].id}`}
-            icon={faTrash}
-            className="trash"
-            onClick={() => this.removeItem(this.props.items[index].id)}
-            size="1x" />
+        title: this.state.activeTab === 'items' ? 'Favorite' : '',
+        render: (text, row) =>
+        this.state.activeTab === 'items' && (
+          <>
+            {
+              this.favoriteList == null ? (
+              <Tooltip key="submit" title={`Add ${row.itemName} to favorites`}>
+                <Button
+                  type="button"
+                  onClick={() => { this.addFavorite(row); }}
+                  icon={<StarOutlined />}
+                  size="small"
+                  style={{ width: 100, border: 'none !important', backgroundColor: 'none !important' }}
+                >
+                </Button>
+              </Tooltip>
+              ) :
+              this.favoriteList.filter(data => data.id === row.id).length === 0 ? 
+              <Tooltip key="submit" title={`Add ${row.itemName} to favorites`}>
+                <Button
+                  type="button"
+                  onClick={() => { this.addFavorite(row); }}
+                  icon={<StarOutlined />}
+                  size="small"
+                  style={{ width: 100, border: 'none !important', backgroundColor: 'none !important' }}
+                >
+                </Button>
+              </Tooltip> :
+              <Tooltip key="submit" title={`Remove ${row.itemName} from favorites`}>
+                <Button
+                  onClick={() => this.removeFavorite(row)}
+                  icon={<StarFilled />}
+                  size="large"
+                  style={{ width: 100, border: 'none !important', backgroundColor: 'none !important' }}
+                >
+                </Button>
+              </Tooltip>
+            }
+          </>
+        ),
+      },
+      {
+        render: (text, row) =>
+        this.state.activeTab === 'items' && (
+          <Tooltip key="submit" title={`Remove ${row.itemName}`}>
+            <FontAwesomeIcon
+              id={`DeleteItem-${row.id}`}
+              icon={faTrash}
+              className="trash"
+              onClick={() => this.removeItem(row) }
+              size="2x" />
+            </Tooltip>
         ),
       },
     ];
@@ -136,7 +320,7 @@ class App extends React.PureComponent {
                     alt="addIcon"
                     onClick={() => { this.showModal(); this.setState({ editItem: false }); }}
                     pull="right"
-                    size="1x"
+                    size="2x"
                   />
                 </Tooltip>
               </h1>
@@ -149,6 +333,7 @@ class App extends React.PureComponent {
               <Tabs
                 className="p5-tabs"
                 size="large"
+                onTabClick={(e) => this.UpdateTabPage(e)}
               >
                 <TabPane
                   className="p5-tabs-pane"
@@ -159,6 +344,7 @@ class App extends React.PureComponent {
                     <Row justify="center">
                       <Col span={24}>
                         <Table
+                          key="rowKey"
                           loading={this.props.loading}
                           dataSource={this.props.items}
                           columns={itemColumns}
@@ -176,7 +362,14 @@ class App extends React.PureComponent {
                   tab="Favorites"
                   key="favorites"
                 > 
-                  <h1>FAVORITES TAB LIST</h1>
+                  <Table
+                    key="rowKey"
+                    dataSource={this.favoriteList !== null && this.favoriteList.length > 0 ? this.favoriteList : null}
+                    columns={itemColumns}
+                    scroll={{ x: 700 }}
+                    size="large"
+                    rowKey='Id' 
+                  />
                 </TabPane>
               </Tabs>
             </Col>
@@ -202,6 +395,7 @@ App.propTypes = {
   dispatch: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
+    itemName: PropTypes.string,
   })),
   loading: PropTypes.bool,
 };

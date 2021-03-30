@@ -9,6 +9,6 @@ namespace ItemsApp.DataContext
     {
         public int Id { get; set; }
         public string ItemName { get; set; }
-        public int Cost { get; set; }
+        public decimal Cost { get; set; }
     }
 }

@@ -13,7 +13,7 @@ import {
   Button,
   Tooltip,
 } from 'antd';
-// import './ItemsModal.css';
+import '../../../App.css';
 
 class ItemsModal extends React.Component {
   constructor(props) {
@@ -108,8 +108,8 @@ class ItemsModal extends React.Component {
                 </Form.Item>
               </Col>
             </Row>
-            <Tooltip title="Submit">
-                <Button block key="submit" type="primary" loading={this.props.loading} onClick={handleSubmit}>
+            <Tooltip title={this.props.btnTxt}>
+                <Button block key="submit" type="primary" style={{ marginBottom: '10px' }} loading={this.props.loading} onClick={handleSubmit}>
                   {this.props.btnTxt}
                 </Button>
             </Tooltip>

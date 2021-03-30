@@ -2,5 +2,5 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [ItemName] NVARCHAR(50) NULL, 
-    [Cost] INT NULL
+    [Cost] DECIMAL(18, 2) NULL
 )
