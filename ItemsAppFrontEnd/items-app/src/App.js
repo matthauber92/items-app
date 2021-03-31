@@ -46,7 +46,7 @@ class App extends React.PureComponent {
 
   componentDidMount() {
     this.getItems();
-    if(sessionStorage.length > 0) {
+    if(sessionStorage.length > 0 || localStorage.length > 0) {
       this.getFavorites();
     }
   }
