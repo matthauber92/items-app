@@ -29,7 +29,7 @@ namespace ItemsApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ItemsDbContext>(
-                options => options.UseSqlServer("Data Source=.\\SQLEXPRESS; Initial Catalog=ItemsDB;User=DESKTOP-PD5IFG9\\Matt; Integrated Security=True"));
+                options => options.UseSqlServer(Configuration["ConnectionStrings:ItemsDbConnection"]));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSwaggerGen(c =>
