@@ -25,6 +25,8 @@
 .add-icon {
   cursor: pointer;
   color: #31525B !important;
+  font-size: 60px;
+  float: right;
 }
 
 .add-icon:hover {
