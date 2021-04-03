@@ -7,17 +7,35 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route } from 'react-router';
 import { Provider } from 'react-redux';
 import { history, store } from './store';
+import rootReducer from './root-reducer';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Route path="/" component={App} />
-      </ConnectedRouter>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const render = () => {
+  ReactDOM.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <Route path="/" component={App} />
+        </ConnectedRouter>
+      </Provider>
+    </React.StrictMode>,
+    document.getElementById('app')
+  );
+}
+
+render();
+
+// Hot reloading
+if (module.hot) {
+  // Reload components
+  module.hot.accept('./App', () => {
+    render();
+  });
+
+  // Reload reducers
+  module.hot.accept('./root-reducer', () => {
+    store.replaceReducer(rootReducer(history));
+  });
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
