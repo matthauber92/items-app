@@ -51,7 +51,6 @@ namespace ItemsApp.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Route("DeleteItem")]
         public void DeleteItem(int id)
         {
             _service.DeleteItem(id);
