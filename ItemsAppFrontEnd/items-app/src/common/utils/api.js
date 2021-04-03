@@ -2,7 +2,7 @@ import axios from 'axios';
 import https from 'https';
 
 const api = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: "https://itemsapp.azurewebsites.net",
   httpsAgent: new https.Agent({
     rejectUnauthorized: false,
   }),
