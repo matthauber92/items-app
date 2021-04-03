@@ -17,7 +17,7 @@ namespace ItemsApp.DataContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=tcp:matt-hauber.database.windows.net,1433;Initial Catalog=ItemsDB;Persist Security Info=False;User ID=matthauber92;Password=Keeper*98;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS; Initial Catalog=ItemsDB;User=DESKTOP-PD5IFG9\\Matt; Integrated Security=True");
             base.OnConfiguring(optionsBuilder);
         }
     }
