@@ -23,7 +23,7 @@ function render() {
 }
 
 function testConsole(message) {
-  console.log(`this HIT THE JS FILE${message}`);
+  console.log(`this HIT THE JS FILE ${message}`);
 }
 
 render();
