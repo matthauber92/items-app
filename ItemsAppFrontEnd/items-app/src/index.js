@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { history, store } from './store';
 import rootReducer from './root-reducer';
 
-const render = () => {
+function render() {
   ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>
