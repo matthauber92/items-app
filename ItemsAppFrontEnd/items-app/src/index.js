@@ -18,7 +18,7 @@ const render = () => {
         </ConnectedRouter>
       </Provider>
     </React.StrictMode>,
-    document.getElementById('app')
+    document.getElementById('root')
   );
 }
 
