@@ -36,7 +36,8 @@ function AddItem(item) {
     dispatch(request());
     ItemsService.addItem(item).then(() => {
         dispatch(success(item));
-        toast(`Successfully added ${item.ItemName}`);   
+        toast(`Successfully added ${item.ItemName}`);
+        this.GetItems();  
       },
       (error) => {
         dispatch(failure(error.toString()));

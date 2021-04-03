@@ -13,9 +13,9 @@ import {
   Space,
 } from "antd";
 import { ToastContainer, toast } from "react-toastify";
-import { faPlusCircle, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ExclamationCircleOutlined, SearchOutlined, StarOutlined, StarFilled } from '@ant-design/icons';
+import { ExclamationCircleOutlined, SearchOutlined, StarOutlined, StarFilled, PlusCircleOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import ItemsModal from './common/components/modals'
 import itemAction from "./action";
@@ -321,14 +321,11 @@ class App extends React.PureComponent {
             <span>
               <h1>
                 <Tooltip title="Add Item">
-                  <FontAwesomeIcon
-                    icon={faPlusCircle}
+                  <PlusCircleOutlined
                     id="AddItem"
                     className="add-icon"
                     alt="addIcon"
                     onClick={() => { this.showModal(); this.setState({ editItem: false }); }}
-                    pull="right"
-                    size="2x"
                   />
                 </Tooltip>
               </h1>

@@ -1,6 +1,6 @@
 {
   "name": "items-app",
-  "proxy": "https://localhost:44344",
+  "proxy": "http://itemsapp.azurewebsites.net",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
