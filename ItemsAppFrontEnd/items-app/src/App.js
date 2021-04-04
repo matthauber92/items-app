@@ -72,11 +72,10 @@ class App extends React.PureComponent {
   };
 
   removeFavorite = (item) => {
-    if(this.favoriteList !== null) {
+    if (this.favoriteList !== null && this.favoriteList.length > 0) {
       const list = this.favoriteList.filter(x => x.id !== item.id);
       sessionStorage.setItem('favorite-list', JSON.stringify(list));
-      localStorage.setItem('favorite-list', JSON.stringify(this.favoriteList));
-      toast(`Removed ${item.itemName} from favorites.`); 
+      localStorage.setItem('favorite-list', JSON.stringify(list));
       this.getItems();
       this.getFavorites();
     } else

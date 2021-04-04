@@ -34,7 +34,6 @@ export default function AppReducer(state = initialState, action) {
         hasError: false,
       };
     case appConstants.ADD_ITEM_SUCCESS:
-      console.log(action);
       return {
         ...state,
         loading: false,
