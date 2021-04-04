@@ -22,18 +22,12 @@ function render() {
   );
 }
 
-function testConsole(message) {
-  console.log(`this HIT THE JS FILE ${message}`);
-}
-
 render();
-testConsole('NOT IN MODULE HOT');
 
 // Hot reloading
 if (module.hot) {
   // Reload components
   module.hot.accept('./App', () => {
-    testConsole('IN MODULE HOT');
     render();
   });
 
