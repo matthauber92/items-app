@@ -1,4 +1,4 @@
-import api from '../common';
+import api from '../api';
 
 function getItems() {
   return api.get('api/Items/GetItems', { withCredentials: true, 'Access-Control-Allow-Origin': '*' })

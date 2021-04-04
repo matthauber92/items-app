@@ -1,5 +1,4 @@
 {
-  "homepage": ".",
   "name": "items-app",
   "proxy": "http://itemsapp.azurewebsites.net",
   "version": "0.1.0",
