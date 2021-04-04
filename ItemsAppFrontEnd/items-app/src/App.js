@@ -83,9 +83,9 @@ class App extends React.PureComponent {
       return;
   };
 
-  getItems() {
+  getItems = () => {
     this.props.dispatch(itemAction.GetItems());
-  }
+  };
   
   addItem = async (item) => {
     await this.props.dispatch(itemAction.AddItem(item));

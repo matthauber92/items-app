@@ -36,8 +36,8 @@ function AddItem(item) {
     dispatch(request());
     ItemsService.addItem(item).then(() => {
         dispatch(success(item));
+        dispatch(this.GetItems());
         toast(`Successfully added ${item.ItemName}`);
-        this.GetItems();  
       },
       (error) => {
         dispatch(failure(error.toString()));
@@ -59,6 +59,7 @@ function UpdateItem(id, item) {
     dispatch(request());
     ItemsService.updateItem(id, item).then(() => {
         dispatch(success(item));
+        dispatch(this.GetItems());
         toast(`Successfully updated ${item.ItemName}`); 
       },
       (error) => {
@@ -81,6 +82,7 @@ function DeleteItem(item) {
     dispatch(request());
     ItemsService.deleteItem(item.id).then(() => {
         dispatch(success(item.id));
+        dispatch(this.GetItems());
         toast(`Removed ${item.itemName}`); 
       },
       (error) => {

@@ -34,6 +34,7 @@ export default function AppReducer(state = initialState, action) {
         hasError: false,
       };
     case appConstants.ADD_ITEM_SUCCESS:
+      console.log(action);
       return {
         ...state,
         loading: false,
@@ -67,20 +68,20 @@ export default function AppReducer(state = initialState, action) {
         hasError: true,
         error: action.error,
       };
-    case appConstants.DELETE_VICTIM_REQUEST:
+    case appConstants.DELETE_ITEM_REQUEST:
       return {
         ...state,
         loading: true,
         hasError: false,
       };
-    case appConstants.DELETE_VICTIM_SUCCESS:
+    case appConstants.DELETE_ITEM_SUCCESS:
       return {
         ...state,
         loading: false,
         hasError: false,
         item: {},
       };
-    case appConstants.DELETE_VICTIM_FAILURE:
+    case appConstants.DELETE_ITEM_FAILURE:
       return {
         ...state,
         loading: false,
