@@ -236,9 +236,11 @@ class App extends React.PureComponent {
         ...this.getItemSearchProps('itemName'),
         render: (text, row) =>
         this.props.items !== null ? (
-          <Button type="text" className="item" onClick={() => { this.showModal(); this.setState({ item: row, itemId: row.id, editItem: true }); }}>
-            {text}
-          </Button>
+          <Tooltip key="submit" title={`Edit/View ${row.itemName}`}>
+            <Button type="text" className="item" onClick={() => { this.showModal(); this.setState({ item: row, itemId: row.id, editItem: true }); }}>
+              {text}
+            </Button>
+          </Tooltip>
         ) : (
           text
         ),
