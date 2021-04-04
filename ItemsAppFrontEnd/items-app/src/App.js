@@ -77,7 +77,15 @@ class App extends React.PureComponent {
       sessionStorage.setItem('favorite-list', JSON.stringify(list));
       localStorage.setItem('favorite-list', JSON.stringify(list));
       this.getItems();
-      this.getFavorites();
+
+      for(var i= 0; i <this.favoriteList.length; i++) {
+        if (this.favoriteList[i].id === item.id) {
+          toast(`Removed ${item.itemName} from favorites.`);
+          this.getFavorites();
+          break;
+        }
+      }
+      
     } else
       return;
   };
