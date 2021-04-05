@@ -30,7 +30,7 @@ namespace ItemsApp.Controllers
             }
             else
             {
-                return null;
+                throw new Exception("Error retrieving items.");
             }
         }
 
@@ -46,7 +46,7 @@ namespace ItemsApp.Controllers
             }
             else
             {
-                return null;
+                throw new Exception("Error adding item.");
             }
         }
 
@@ -68,7 +68,7 @@ namespace ItemsApp.Controllers
             }
             else
             {
-                return null;
+                throw new Exception("Error updating item.");
             }
         }
     }
