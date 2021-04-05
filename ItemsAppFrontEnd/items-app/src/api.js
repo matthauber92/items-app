@@ -8,6 +8,8 @@ const api = axios.create({
   }),
 });
 
+console.log(api);
+
 api.interceptors.request.use((config) => {
   /* eslint-disable no-param-reassign */
   config.headers = {

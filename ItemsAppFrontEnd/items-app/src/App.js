@@ -54,9 +54,25 @@ class App extends React.PureComponent {
   getFavorites = () => {
     if (sessionStorage.length > 0) {
       const sessionList = JSON.parse(sessionStorage.getItem('favorite-list'));
+      for (var i= 0; i < sessionList.length; i++) {
+        if (this.props.items.includes(sessionList[i])) {
+          continue;
+        } else {
+          const index = sessionList.indexOf(i);
+          sessionList.splice(index, 1);
+        }
+      }
       this.favoriteList = sessionList;
     } else if (localStorage.length > 0) {
       const sessionList = JSON.parse(localStorage.getItem('favorite-list'));
+      for (var x= 0; x < sessionList.length; x++) {
+        if (this.props.items.includes(sessionList[x])) {
+          continue;
+        } else {
+          const index = sessionList.indexOf(x);
+          sessionList.splice(index, 1);
+        }
+      }
       this.favoriteList = sessionList;
     } else
       this.favoriteList = [];
