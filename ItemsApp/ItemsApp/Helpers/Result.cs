@@ -15,44 +15,9 @@ namespace ItemsApp.Helpers
         public Result(Result result)
         {
             this.Exception = result.Exception;
-            this.EndTime = result.EndTime;
-            this.Page = result.Page;
-            this.ResultsPerPage = result.ResultsPerPage;
-            this.StartTime = result.StartTime;
-            this.TotalResults = result.TotalResults;
-            this.SortProperty = result.SortProperty;
-            this.IsAscending = result.IsAscending;
         }
 
         public Exception Exception { get; set; }
-        public int? Page { get; set; }
-        public int? ResultsPerPage { get; set; }
-        public int? TotalResults { get; set; }
-        public int? TotalPages
-        {
-
-            get
-            {
-                if (ResultsPerPage.HasValue && TotalResults.HasValue)
-                    return (TotalResults.Value % ResultsPerPage.Value) == 0 ?
-                        TotalResults.Value / ResultsPerPage.Value :
-                        (TotalResults.Value / ResultsPerPage.Value) + 1;
-                return null;
-            }
-        }
-        public bool HasMore
-        {
-            get
-            {
-                if (TotalPages.HasValue && Page.HasValue)
-                    return Page.Value < TotalPages;
-                return false;
-            }
-        }
-        public string SortProperty { get; set; }
-        public bool IsAscending { get; set; }
-        public DateTime? StartTime { get; set; }
-        public DateTime? EndTime { get; set; }
         public bool HasError
         {
             get
