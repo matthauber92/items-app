@@ -74,6 +74,7 @@ namespace ItemsApp.Services
                     _db.SaveChanges();
 
                     transaction.Commit();
+                    result.Value = item;
                 }
             }
             catch (Exception ex)
