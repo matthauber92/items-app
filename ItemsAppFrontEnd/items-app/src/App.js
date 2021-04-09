@@ -238,7 +238,7 @@ class App extends React.PureComponent {
         this.props.items !== null ? (
           <Tooltip key="submit" title={`Edit/View ${row.itemName}`}>
             <Button type="text" className="item" onClick={() => { this.showModal(); this.setState({ item: row, itemId: row.id, editItem: true }); }}>
-              {text}
+              {row.itemName}
             </Button>
           </Tooltip>
         ) : (
