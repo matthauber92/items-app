@@ -1,3 +1,7 @@
+.body {
+  background-color: rgb(216 216 216) !important;
+}
+
 .item {
   font-size: 16px;
   font-weight: 500;
