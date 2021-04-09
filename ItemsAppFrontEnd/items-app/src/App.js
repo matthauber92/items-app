@@ -343,13 +343,12 @@ class App extends React.PureComponent {
                     <Row justify="center">
                       <Col span={24}>
                         <Table
-                          key="rowKey"
                           loading={this.props.loading}
                           dataSource={this.props.items}
                           columns={itemColumns}
                           scroll={{ x: 700 }}
                           size="large"
-                          rowKey='Id' 
+                          rowKey='id' 
                         />
                       </Col>
                     </Row>
@@ -361,12 +360,11 @@ class App extends React.PureComponent {
                   key="favorites"
                 > 
                   <Table
-                    key="rowKey"
                     dataSource={this.favoriteList !== null && this.favoriteList.length > 0 ? this.favoriteList : null}
                     columns={itemColumns}
                     scroll={{ x: 700 }}
                     size="large"
-                    rowKey='Id' 
+                    rowKey='id' 
                   />
                 </TabPane>
               </Tabs>
