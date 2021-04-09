@@ -40,6 +40,7 @@ function AddItem(item) {
         toast(`Successfully added ${item.ItemName}`);
       },
       (error) => {
+        toast(`FAILED to add ${item.ItemName}`);
         dispatch(failure(error.toString()));
       },
     );

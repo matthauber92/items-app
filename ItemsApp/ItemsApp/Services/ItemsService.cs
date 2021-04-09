@@ -27,12 +27,13 @@ namespace ItemsApp.Services
             Result<Items> result = new Result<Items>();
             try
             {
-                Items model = new Items();
+                result.Value = item;
                 using (var transaction = _db.Database.BeginTransaction())
                 {
                     _db.Items.Add(item);
                     _db.SaveChanges();
                     transaction.Commit();
+
                 }
             }
             catch (Exception ex)
